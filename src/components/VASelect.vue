@@ -13,7 +13,7 @@
   </div>
   <select v-else
     class="form-control" :disabled="isDisabled" :multiple="isMultiple">
-    <option v-for="(item,index) in list" :data="item" :key="index">
+    <option v-for-object="(item,index) in list" :data="item" :key="index">
       {{ item }}
     </option>
   </select>
@@ -23,7 +23,7 @@ export default {
   name: 'va-select',
   props: {
     list: {
-      type: Array,
+      type: Object,
       default: []
     },
     isDisabled: {
