@@ -4,16 +4,25 @@
   >
     <label :for="vaId" class="col-sm-2 control-label">{{ title }}</label>
     <div class="col-sm-10">
-      <select class="form-control" :disabled="isDisabled" :multiple="isMultiple">
-        <option v-for="(item,index) in list" :data="item" :key="index">
+      <select
+        class="form-control"
+        :disabled="isDisabled"
+        :multiple="isMultiple"
+        :required="isRequired"
+        :value="value"
+        @change="sendParams($event.target.value)"
+      >
+        <option v-if="isEmpty" value=""></option>
+        <option v-for="(item,index) in list" :value="index" :data="item" :key="index">
           {{ item }}
         </option>
       </select>
     </div>
   </div>
   <select v-else
-    class="form-control" :disabled="isDisabled" :multiple="isMultiple">
-    <option v-for-object="(item,index) in list" :data="item" :key="index">
+    class="form-control" :disabled="isDisabled" :multiple="isMultiple" :required="isRequired">
+      <option v-if="isEmpty" value=""></option>
+    <option v-for="(item,index) in list" :data="item" :key="index">
       {{ item }}
     </option>
   </select>
@@ -23,30 +32,46 @@ export default {
   name: 'va-select',
   props: {
     list: {
-      type: Object,
-      default: []
+      type: Array,
+      default: {},
     },
     isDisabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isMultiple: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isHorizontal: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    isEmpty: {
+      typeL: Boolean,
+      default: false,
     },
     title: {
-      type: String
+      type: String,
     },
     vaId: {
-      type: String
+      type: String,
+    },
+    isRequired: {
+      type: Boolean,
+      default: true,
+    },
+    value: {
+      type: Number,
     },
   },
-  created () {
+  methods: {
+    sendParams(value) {
+      this.$emit('input', value);
+    },
+  },
+  created() {
 
-  }
-}
+  },
+};
 </script>
