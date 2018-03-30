@@ -11,7 +11,9 @@
         :class="[formControl, getSize]"
         :id="vaId"
         :placeholder="placeholder"
-        :value="value">
+        :value="value"
+        :required="isRequired"
+        @input="sendParams($event.target.value)">
       </input>
     </div>
 
@@ -22,7 +24,8 @@
          :id="vaId"
          :placeholder="placeholder"
          :value="value"
-         :disabled="isDisabled">
+         :disabled="isDisabled"
+         @input="sendParams($event.target.value)">
   </input>
 
 
@@ -34,36 +37,45 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'text'
+      default: 'text',
     },
     vaId: {
-      type: String
+      type: String,
     },
     placeholder: {
       type: String,
-      default: 'Enter Text...'
+      default: 'Enter Text...',
     },
     size: {
-      type: String
+      type: String,
     },
     value: {
-      type: String
+      type: String,
     },
     isFormControl: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isHorizontal: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
-      type: String
+      type: String,
     },
     isDisabled: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+    isRequired: {
+      type: Boolean,
+      default: true,
     }
+  },
+  methods: {
+    sendParams(value) {
+      this.$emit('input', value);
+    },
   },
   computed: {
     getSize () {
@@ -73,12 +85,11 @@ export default {
 
       return 'input-' + this.size
     },
-    formControl () {
-      return this.isFormControl ? 'form-control' : ''
-    }
+    formControl() {
+      return this.isFormControl ? 'form-control' : '';
+    },
   },
-  created () {
-
+  created() {
   }
 }
 </script>
